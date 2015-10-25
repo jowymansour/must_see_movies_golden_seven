@@ -17,7 +17,14 @@ class DirectorsController < ApplicationController
     @director.bio = params[:bio]
     @director.image_url = params[:image_url]
 
-    render("show")
+    if @director.save
+      flash[:success] = "The director has been succesfully added."
+      render("show")
+    else
+      flash[:danger] = "Please enter a name not yet added to continue."
+      render 'new_form'
+    end
+
   end
 
   def edit_form
@@ -30,8 +37,15 @@ class DirectorsController < ApplicationController
     @director.name = params["the_name"]
     @director.bio = params["the_bio"]
     @director.image_url = params["the_image_url"]
-    @director.save
-    render("show")
+
+    if @director.save
+      flash[:success] = "The director has been succesfully updated."
+      render("show")
+    else
+      flash[:danger] = "Please enter a name not yet added to continue."
+      render 'edit_form'
+    end
+
   end
 
   def destroy

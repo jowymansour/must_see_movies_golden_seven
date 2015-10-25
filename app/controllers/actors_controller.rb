@@ -17,9 +17,13 @@ class ActorsController < ApplicationController
     @actor.bio = params[:bio]
     @actor.image_url = params[:image_url]
 
-    @actor.save
-
-    render("show")
+    if @actor.save
+      flash[:success] = "The actor has been succesfully added."
+      render("show")
+    else
+      flash[:danger] = "Please enter a name not yet added to continue."
+      render 'new_form'
+    end
   end
 
   def edit_form
@@ -34,9 +38,13 @@ class ActorsController < ApplicationController
     @actor.bio = params[:bio]
     @actor.image_url = params[:image_url]
 
-    @actor.save
-
-    render("show")
+    if @actor.save
+      flash[:success] = "The actor has been succesfully updated."
+      render("show")
+    else
+      flash[:danger] = "Please enter a name not yet added to continue."
+      render 'edit_form'
+    end
   end
 
   def destroy

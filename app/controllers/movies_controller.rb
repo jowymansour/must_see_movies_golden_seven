@@ -11,15 +11,20 @@ class MoviesController < ApplicationController
   end
 
   def create_row
-
     @movie = Movie.new
     @movie.title = params[:title]
     @movie.year = params[:year]
     @movie.duration = params[:duration]
     @movie.description = params[:description]
     @movie.image_url = params[:image_url]
-    @movie.save
-    render("show")
+
+    if @movie.save
+      flash[:success] = "Your movie has been succesfully added."
+      render("show")
+    else
+      flash[:danger] = "Please enter a title not yet added to continue."
+      render 'new_form'
+    end
   end
 
   def edit_form
@@ -33,8 +38,13 @@ class MoviesController < ApplicationController
     @movie.duration = params[:duration]
     @movie.description = params[:description]
     @movie.image_url = params[:image_url]
-    @movie.save
-    render("show")
+    if @movie.save
+      flash[:success] = "Your movie has been succesfully updated."
+      render("show")
+    else
+      flash[:danger] = "Please enter a title not yet added to continue."
+      render 'edit_form'
+    end
   end
 
   def destroy
